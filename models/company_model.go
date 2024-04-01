@@ -2,6 +2,7 @@ package models
 
 import (
 	"gorm.io/gorm"
+	"time"
 )
 
 type Company struct {
@@ -10,7 +11,7 @@ type Company struct {
 	Name       string `gorm:"varchar:191"`
 	State      string `gorm:"varchar:191"`
 	City       string `gorm:"varchar:191"`
-	CreateDate string `gorm:"varchar:191"`
-	ExpiryDate string `gorm:"varchar:191"`
+	CreateDate time.Time
+	ExpiryDate time.Time
 	Code       string `gorm:"varchar:191"`
 }
