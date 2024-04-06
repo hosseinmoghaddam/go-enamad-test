@@ -24,26 +24,12 @@ func GetCompanyPage(index int) {
 		company.Name = e.ChildText("div:nth-child(3)")
 		company.State = e.ChildText("div:nth-child(4)")
 		company.City = e.ChildText("div:nth-child(5)")
-		//strPersianDate := strings.Split(e.ChildText("div:nth-child(7)"), "/")
-		//year, _ := strconv.Atoi(strPersianDate[0])
-		//month, _ := strconv.Atoi(strPersianDate[1])
-		//day, _ := strconv.Atoi(strPersianDate[2])
-		//var pt ptime.Time = ptime.Date(
-		//	year,
-		//	ptime.Month(month),
-		//	day,
-		//	0,
-		//	0,
-		//	0,
-		//	0,
-		//	ptime.Iran(),
-		//)
-
 		company.CreateDate, _ = StrToTime(e.ChildText("div:nth-child(7)"))
 		company.ExpiryDate, _ = StrToTime(e.ChildText("div:nth-child(8)"))
 		u, _ := url.Parse(e.ChildAttr("div:nth-child(2)>a:nth-child(1)", "href"))
 		m, _ := url.ParseQuery(u.RawQuery)
 		company.Code = m["code"][0]
+		company.EnamadID = m["id"][0]
 		var newCompany models.Company
 
 		database.Connection().Create(&company).Scan(&newCompany)
@@ -118,7 +104,7 @@ func main() {
 
 	migration.Migrate()
 
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 10; i++ {
 		GetCompanyPage(i)
 	}
 
